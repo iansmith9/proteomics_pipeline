@@ -1,0 +1,15 @@
+README.md
+setup.py
+proteomics_pipeline/__init__.py
+proteomics_pipeline/comet_db_search.py
+proteomics_pipeline/fdr_wrangle_quant_merge.py
+proteomics_pipeline/lfq_biosaur2.py
+proteomics_pipeline/main.py
+proteomics_pipeline/msconvert.py
+proteomics_pipeline/tmt_quant_tool.py
+proteomics_pipeline.egg-info/PKG-INFO
+proteomics_pipeline.egg-info/SOURCES.txt
+proteomics_pipeline.egg-info/dependency_links.txt
+proteomics_pipeline.egg-info/entry_points.txt
+proteomics_pipeline.egg-info/requires.txt
+proteomics_pipeline.egg-info/top_level.txt

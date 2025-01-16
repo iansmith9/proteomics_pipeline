@@ -1,0 +1,2 @@
+[console_scripts]
+mass_spec_pipe = mass_spec_dev.main:main
