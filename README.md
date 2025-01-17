@@ -47,7 +47,7 @@ This codebase implements a proteomics data analysis pipeline with support for bo
 
 ## Example Usage
 
-The pipeline can be run either through command line interface or Python scripts. Recommend running in Jupyter Notebook. Example jupyter notebook accessed in package. This pipeline enables AWS (s3) and dockerized msconvert functionality (please use help command to find arguments in cli functions to enable AWS-based functionality).Below is an example workflow using Python:
+The pipeline can be run either through command line interface or Python scripts. Recommend running in Jupyter Notebook. Example jupyter notebook accessed in package. This pipeline enables AWS (s3) file access and transfer, and dockerized msconvert functionality (please use help command to find arguments in CLI functions to enable AWS-based functionality). Below is an example workflow using Python:
 
 ### 1a. List Files from PRIDE Repository
 ```python
