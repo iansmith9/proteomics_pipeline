@@ -249,7 +249,7 @@ def dump_models_and_results(
             else:
                 peptide_df = peptide_df[peptide_df["mokapot q-value"] < 0.01].copy()
                 list_peptides_unique = peptide_df["Peptide"].unique()
-            psm_filtered_by_peptides["filename"] = str(op)
+
             psm_filtered_by_peptides = psm_df[
                 psm_df["Peptide"].isin(list_peptides_unique) &
                 ~psm_df["mokapot score"].isna() &
@@ -278,6 +278,7 @@ def dump_models_and_results(
             else:
                 raise Exception("Must designate 'tmt' or 'lfq' with lfq_tmt parameter.")
 
+            psm_filtered_by_peptides["filename"] = str(op)
             psm_filtered_by_peptides.to_csv(
                 out / f"{op}_psm{psm_fdr}_peptide{peptide_fdr}_protein{protein_fdr}_fdr.csv"
             )
@@ -352,7 +353,7 @@ def dump_models_and_results(
         psm_filtered_by_peptides = psm_filtered_by_peptides[
             psm_filtered_by_peptides["mokapot q-value"] < 0.01
         ].copy()
-        psm_filtered_by_peptides["filename"] = str(op)
+        
 
         retention_time_df = retention_time_fetch(path, op, faims)
         psm_filtered_by_peptides = pd.merge(
@@ -372,6 +373,7 @@ def dump_models_and_results(
         else:
             raise Exception("Must designate 'tmt' or 'lfq' with lfq_tmt parameter.")
         #add lead protein and redundancy columns
+        psm_filtered_by_peptides["filename"] = str(op)
         list_proteins = psm_filtered_by_peptides["Proteins"]
         lead_protein =[]
         redundancy = []
