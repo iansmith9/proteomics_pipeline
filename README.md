@@ -130,7 +130,7 @@ db_search(
     params = "C:/path_to_custom_params"
     ## ensure custom params and corresponding fasta are in path of path argument and are the only onces present in the folder
 )
-    ```
+```
 
 ### 5a. For LFQ: MS1 Feature Detection
 ```python
