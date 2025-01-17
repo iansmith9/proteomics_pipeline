@@ -53,7 +53,7 @@ The pipeline can be run either through command line interface or Python scripts.
 ```python
 from proteomics_pipeline.main import pride_repo_file_display
 
-file_list = pride_repo_file_display(
+file_list_object = pride_repo_file_display(
     path = "C:/project_path_name/",
     pride_repo = "PXD038358",
     file_extension = "*.raw"
@@ -64,7 +64,7 @@ file_list = pride_repo_file_display(
 ```python
 from proteomics_pipeline.main import internal_repo_file_display
 
-local_files = internal_repo_file_display(
+file_list_object = internal_repo_file_display(
     path = "C:/project_path_name/",  
     interal_repo_path = "C:/path_repo_location_raw_files/",
     file_extension = "*.raw"
@@ -82,9 +82,10 @@ raw_file_extract(
     path = "C:/project_path_name/",
     pride_or_internal = "pride",
     pride_repo = "PXD038358",
-    file_list = ['APEX-GABARAPL2_1.raw', 
-                 'APEX-GABARAPL2_2.raw',
-                 'APEX-GABARAPL2_3.raw']
+    file_list = file_list_object
+    # file_list = ['APEX-GABARAPL2_1.raw', 
+    #              'APEX-GABARAPL2_2.raw',
+    #              'APEX-GABARAPL2_3.raw']
 )
 ```
 
