@@ -213,7 +213,7 @@ def dump_models_and_results(
                 r.confidence_estimates["psms"],
                 r.decoy_confidence_estimates["psms"]
             ], axis=0, ignore_index=True)
-
+            psm_df["filename"] = str(op)
             psm_df = p._data.merge(
                 psm_df.loc[:, ["SpecId"] + 
                 psm_df.columns[psm_df.columns.str.startswith("mokapot")].tolist()],
@@ -285,6 +285,17 @@ def dump_models_and_results(
             psm_filtered_dfs.append(psm_filtered_by_peptides)
 
         psm_filtered_by_peptides = pd.concat(psm_filtered_dfs, ignore_index=True)
+
+            ###
+        lead_protein =[]
+        redundancy = []
+        for i in list_proteins:
+            lead_protein.append(i.split("\t")[0])
+            redundancy.append(len(lead_protein)-1)
+        psm_filtered_by_peptides["lead_protein"] = lead_protein
+        psm_filtered_by_peptides["redundancy"] = redundancy
+
+
         psm_filtered_by_peptides.to_csv(
             out / f"combined_psm{psm_fdr}_peptide{peptide_fdr}_protein{protein_fdr}_fdr.csv"
         )
@@ -358,7 +369,15 @@ def dump_models_and_results(
             )
         else:
             raise Exception("Must designate 'tmt' or 'lfq' with lfq_tmt parameter.")
-
+        #add lead protein and redundancy columns
+        lead_protein =[]
+        redundancy = []
+        for i in list_proteins:
+            lead_protein.append(i.split("\t")[0])
+            redundancy.append(len(lead_protein)-1)
+        psm_filtered_by_peptides["lead_protein"] = lead_protein
+        psm_filtered_by_peptides["redundancy"] = redundancy
+        
         psm_filtered_by_peptides.to_csv(
             out / f"{out_prefix}_psm{psm_fdr}_peptide{peptide_fdr}_protein{protein_fdr}_fdr.csv"
         )
