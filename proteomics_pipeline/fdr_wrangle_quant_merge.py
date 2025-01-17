@@ -286,7 +286,8 @@ def dump_models_and_results(
 
         psm_filtered_by_peptides = pd.concat(psm_filtered_dfs, ignore_index=True)
 
-            ###
+        ###
+        list_proteins = psm_filtered_by_peptides["Proteins"]
         lead_protein =[]
         redundancy = []
         for i in list_proteins:
@@ -370,6 +371,7 @@ def dump_models_and_results(
         else:
             raise Exception("Must designate 'tmt' or 'lfq' with lfq_tmt parameter.")
         #add lead protein and redundancy columns
+        list_proteins = psm_filtered_by_peptides["Proteins"]
         lead_protein =[]
         redundancy = []
         for i in list_proteins:
