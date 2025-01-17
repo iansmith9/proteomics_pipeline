@@ -213,7 +213,7 @@ def dump_models_and_results(
                 r.confidence_estimates["psms"],
                 r.decoy_confidence_estimates["psms"]
             ], axis=0, ignore_index=True)
-            psm_df["filename"] = str(op)
+            
             psm_df = p._data.merge(
                 psm_df.loc[:, ["SpecId"] + 
                 psm_df.columns[psm_df.columns.str.startswith("mokapot")].tolist()],
@@ -249,7 +249,7 @@ def dump_models_and_results(
             else:
                 peptide_df = peptide_df[peptide_df["mokapot q-value"] < 0.01].copy()
                 list_peptides_unique = peptide_df["Peptide"].unique()
-
+            psm_filtered_by_peptides["filename"] = str(op)
             psm_filtered_by_peptides = psm_df[
                 psm_df["Peptide"].isin(list_peptides_unique) &
                 ~psm_df["mokapot score"].isna() &
@@ -352,6 +352,7 @@ def dump_models_and_results(
         psm_filtered_by_peptides = psm_filtered_by_peptides[
             psm_filtered_by_peptides["mokapot q-value"] < 0.01
         ].copy()
+        psm_filtered_by_peptides["filename"] = str(op)
 
         retention_time_df = retention_time_fetch(path, op, faims)
         psm_filtered_by_peptides = pd.merge(
