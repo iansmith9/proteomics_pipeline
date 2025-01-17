@@ -189,21 +189,22 @@ train_fdr_model          # Process results with FDR control
 ## Output Files
 The pipeline generates:
 <ul>
-    <li>Processed mzML files in \texttt{/mzml}</li>
-    <li>Database search results (.pin files)</li>
+    <li>Processed mzML files in path/raw/{eg .raw files}</li>
+    <li>Processed mzML files in path/mzml/{.mzml files}</li>
+    <li>Database search results in path/mzml/{.pin files}</li>
     <li>Feature quantification tables:
         <ul>
-            <li>LFQ: \texttt{.features.tsv} files in \texttt{/ms1\_features}</li>
-            <li>TMT: \texttt{\_ms[2/3]\_quant.csv} files in \texttt{/ms[2/3]\_features}</li>
+            <li>LFQ: path/ms1_features/{.features.tsv files}</li>
+            <li>TMT: path/ms[2/3]_features/{.features.tsv files}</li>
         </ul>
     </li>
     <li>FDR-controlled results:
         <ul>
-            <li>Combined results file with specified FDR thresholds</li>
-            <li>Mokapot model file (\texttt{svc.model})</li>
+            <li>Combined results file with specified FDR thresholds in path/mokapot_results/{.csv files}</li>
+            <li>Mokapot model file in path/mokapot_results/{svc.model}</li>
         </ul>
     </li>
-    <li>Log files for each processing step</li>
+    <li>Log files for each processing step in path/logs/{.log files}</li>
 </ul>
 
 ## Function Documentation
