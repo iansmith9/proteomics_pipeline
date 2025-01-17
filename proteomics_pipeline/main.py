@@ -21,7 +21,7 @@ from .comet_db_search import *
 from .lfq_biosaur2 import *
 from .tmt_quant_tool import *
 from .fdr_wrangle_quant_merge import *
-
+from .fdr_wrangle_quant_merge_no_protein_group import *
 # Configure basic logging settings for the application
 logging.basicConfig(
     level=logging.INFO,
@@ -494,6 +494,7 @@ def tmt_quant_function(
 @click.option("--protein_fdr", default=0.01, type=float, help="Protein-level FDR threshold (0 to 1)")
 @click.option("--threads", type=int, default=3, help="Number of threads for parallel processing")
 @click.option("--jobs", type=int, default=3, help="Number of concurrent jobs")
+@click.option("--protein_group_off", is_flag=True, default=False, help="Whether protein grouping is turned off.")
 @configure_logger
 def _train_fdr_model(*args: Any, **kwargs: Any) -> None:
     """CLI wrapper for train_fdr_model."""
@@ -513,7 +514,8 @@ def train_fdr_model(
     peptide_fdr: float = 0.01,
     protein_fdr: float = 0.01,
     threads: int = 3,
-    jobs: int = 3,    
+    jobs: int = 3, 
+    protein_group_off: bool = False,
 ) -> mokapot.dataset.PsmDataset:
     """Train FDR model using mokapot with a joint model to generate psm-level results filtered at the psm, peptide, and protein FDR levels defined by user.
 
@@ -530,7 +532,7 @@ def train_fdr_model(
         protein_fdr: Protein-level FDR threshold (default: 0.01)
         threads: Number of threads for parallel processing (default: 3)
         jobs: Number of concurrent jobs (default: 3)
-
+        protein_group_off: Whether peptidome was used (default: False)
     Returns:
         PsmDataset containing processed results
 
@@ -549,14 +551,15 @@ def train_fdr_model(
         out = Path(out)
     out.mkdir(exist_ok=True)
     
-    proteins = mokapot.read_fasta(
-        fasta,
-        enzyme=enzyme_regex,
-        decoy_prefix="decoy_",
-        missed_cleavages=2,
-        min_length=5,
-        max_length=50
-    )
+    if not protein_group_off:
+        proteins = mokapot.read_fasta(
+            fasta,
+            enzyme=enzyme_regex,
+            decoy_prefix="decoy_",
+            missed_cleavages=2,
+            min_length=5,
+            max_length=50
+        )
 
     psm_list = []
     list_quant_files = []
@@ -575,7 +578,8 @@ def train_fdr_model(
         else:
             raise Exception("Must designate 'tmt' or 'lfq' with lfq_tmt parameter.")
 
-    [p.add_proteins(proteins) for p in psm_list]
+    if not protein_group_off:
+        [p.add_proteins(proteins) for p in psm_list]
     
     results, models = mokapot.brew(
         psm_list,
@@ -586,22 +590,38 @@ def train_fdr_model(
         max_workers=threads,
         rng=np.random.default_rng(seed=42),
     )
-    
-    dump_models_and_results(
-        psm_list,
-        models,
-        results,
-        output_prefix,
-        list_quant_files,
-        path,
-        out,
-        psm_fdr,
-        peptide_fdr,
-        protein_fdr,
-        lfq_tmt,
-        ms_level_tmt_quant,
-        faims,
-    )
+    if not protein_group_off:
+        dump_models_and_results(
+            psm_list,
+            models,
+            results,
+            output_prefix,
+            list_quant_files,
+            path,
+            out,
+            psm_fdr,
+            peptide_fdr,
+            protein_fdr,
+            lfq_tmt,
+            ms_level_tmt_quant,
+            faims,
+        )
+    else:
+        dump_models_and_results_no_protein_group(
+            psm_list,
+            models,
+            results,
+            output_prefix,
+            list_quant_files,
+            path,
+            out,
+            psm_fdr,
+            peptide_fdr,
+            protein_fdr,
+            lfq_tmt,
+            ms_level_tmt_quant,
+            faims,
+        )
 
         
 
