@@ -189,22 +189,22 @@ train_fdr_model          # Process results with FDR control
 ## Output Files
 The pipeline generates:
 <ul>
-    <li>Processed mzML files in path/raw/{eg .raw files}</li>
-    <li>Processed mzML files in path/mzml/{.mzml files}</li>
-    <li>Database search results in path/mzml/{.pin files}</li>
+    <li>Processed instrument raw files in project_path_name/raw/{eg .raw files}</li>
+    <li>Processed mzML files in project_path_name/mzml/{.mzml files}</li>
+    <li>Database search results in project_path_name/mzml/{.pin files}</li>
     <li>Feature quantification tables:
         <ul>
-            <li>LFQ: path/ms1_features/{.features.tsv files}</li>
-            <li>TMT: path/ms[2/3]_features/{.features.tsv files}</li>
+            <li>LFQ: project_path_name/ms1_features/{.features.tsv files}</li>
+            <li>TMT: project_path_name/ms[2/3]_features/{.features.tsv files}</li>
         </ul>
     </li>
     <li>FDR-controlled results:
         <ul>
-            <li>Combined results file with specified FDR thresholds in path/mokapot_results/{.csv files}</li>
-            <li>Mokapot model file in path/mokapot_results/{svc.model}</li>
+            <li>Combined results file with specified FDR thresholds in project_path_name/mokapot_results/{.csv files}</li>
+            <li>Mokapot model file in project_path_name/mokapot_results/{svc.model}</li>
         </ul>
     </li>
-    <li>Log files for each processing step in path/logs/{.log files}</li>
+    <li>Log files for each processing step in project_path_name/logs/{.log files}</li>
 </ul>
 
 ## Function Documentation
