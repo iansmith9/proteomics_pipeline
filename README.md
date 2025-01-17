@@ -151,7 +151,7 @@ tmt_quant_function(
 )
 ```
 
-### 6. FDR Control and Result Processing
+### 6a. FDR Control and Result Processing with TMT example
 ```python
 from proteomics_pipeline.main import train_fdr_model
 
@@ -162,6 +162,21 @@ results = train_fdr_model(
     psm_fdr = 0.01,
     peptide_fdr = 0.01,
     protein_fdr = 0.01
+)
+```
+
+### 6b. FDR Control and Result Processing with LFQ example
+```python
+from proteomics_pipeline.main import train_fdr_model
+
+results = train_fdr_model(
+    path = "C:/project_path_name/",
+    fasta = None,  # Will use fasta file in path
+    lfq_tmt = 'lfq',
+    psm_fdr = 0.01,
+    peptide_fdr = 0.01,
+    protein_fdr = 0.01,
+    faims = True
 )
 ```
 
