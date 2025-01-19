@@ -69,7 +69,7 @@ def dump_models_and_results_no_protein_group(
 
         for r, p, qf, op in zip(results, pin, list_quant_files, out_prefix):
             # labels = ["exp_1", "exp_2", "exp_3"]
-            r.to_txt(dest_dir = out, file_root = op, sep="\t", decoys=False)
+            # r.to_txt(dest_dir = out, file_root = op, sep="\t", decoys=False)
             # result_files = [r.to_txt(file_root=l) for l, r in zip(labels, result_list)]
 
             psm_df = pd.concat([
@@ -143,6 +143,9 @@ def dump_models_and_results_no_protein_group(
             psm_filtered_by_peptides["filename"] = str(op)
             psm_filtered_by_peptides.to_csv(
                 out / f"{op}_psm{psm_fdr}_peptide{peptide_fdr}_protein{protein_fdr}_fdr.csv"
+            )
+            psm_filtered_by_peptides.to_csv(
+                out / f"{op}_pyascore_input.txt" , sep ="\t"
             )
 
             psm_filtered_dfs.append(psm_filtered_by_peptides)
@@ -246,6 +249,9 @@ def dump_models_and_results_no_protein_group(
         
         psm_filtered_by_peptides.to_csv(
             out / f"{out_prefix}_psm{psm_fdr}_peptide{peptide_fdr}_protein{protein_fdr}_fdr.csv"
+        )
+        psm_filtered_by_peptides.to_csv(
+            out / f"{out_prefix}_pyascore_input.txt" , sep ="\t"
         )
 
     dump(models, out / "svc.model")
