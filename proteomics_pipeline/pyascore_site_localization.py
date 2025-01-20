@@ -35,6 +35,8 @@ def run_pyascore(
         modification_dict_add: Dictionary of additional modifications to add to PyAscore dictionary 
             beyond standard Mox, Camid, or phosphoSTY
         static_mod_dictionary: Dictionary of static modifications to add to PyAscore Identification Parser
+        ascore_mod_mass: Modification mass to use for site localization scoring
+        ascore_aa: Amino acid residue(s) to consider for site localization
 
     Returns:
         DataFrame containing site localization results
@@ -52,9 +54,11 @@ def run_pyascore(
 
     id_parser = pyascore.IdentificationParser(psm_path, id_file_format = "mokapotTXT", static_mods = static_mod_dictionary, mass_corrector = mass_corrector_val)
     spectral_parser = pyascore.SpectraParser(mzml_path, 'mzML')
-    ascore = pyascore.PyAscore(bin_size=100, n_top=10, mod_group = ascore_aa, mod_mass = ascore_mod_mass)
+    mod_mass = ascore_mod_mass
+    ascore = pyascore.PyAscore(bin_size=100, n_top=10, mod_group = ascore_aa, mod_mass = mod_mass)
     psm_objects = id_parser.to_list()
     spectra_objects = spectral_parser.to_dict()
+
 
     # 4) Score PSMs
     pyascore_results = []
