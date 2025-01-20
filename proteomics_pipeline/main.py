@@ -13,7 +13,7 @@ import ppx
 import shutil
 import mokapot
 from importlib import resources, import_module
-
+from pyascore import *
 
 
 from .msconvert import *
@@ -623,7 +623,73 @@ def train_fdr_model(
             faims,
         )
 
-        
 
+@main.command("pyascore_site_localization", help="Perform site localization with PyAscore.")
+@click.option("--path", help="Path to project.")
+@click.option("--modification_dict_add", help="Add modifications to PyAscore dictionary if not standard Mox, Camid, or phosphoSTY.")
+@click.option("--static_mod_dictionary", help="Add static modifications to Pyascore Identification Parser.")
+@click.option("--ascore_mod_mass", help="Add modification mass to Pyascore Identification Parser.")
+@click.option("--ascore_aa", help="Add modification mass to Pyascore Identification Parser.")
+@click.option("--out", default=None, help="Path to folder to store results.")
+@configure_logger
+def _train_fdr_model(*args: Any, **kwargs: Any) -> None:
+    """CLI wrapper for train_fdr_model."""
+    train_fdr_model(*args, **kwargs)
+
+@arg_logger
+def pyascore_site_localization(
+    path: Union[Path, str],
+    modification_dict_add: Dict[str, float] = None,
+    static_mod_dictionary: Dict[str, float] = None,
+    ascore_mod_mass: float = None,
+    ascore_aa: str = None,
+    out: Union[Path, str, None] = None,
+) -> None:
+    """Run PyAscore site localization on PSM results.
+
+    Args:
+        path (Union[Path, str]): Path to project directory
+        modification_dict_add (Dict[str, float], optional): Dictionary of modifications to add to PyAscore dictionary if not standard Mox, Camid, or phosphoSTY. Defaults to None.
+        static_mod_dictionary (Dict[str, float], optional): Dictionary of static modifications to add to Pyascore Identification Parser (eg {'C': 57.021464, 'nK': 304.207}). Defaults to None.
+        ascore_mod_mass (float, optional): Modification mass to use for site localization scoring. Defaults to None.
+        ascore_aa (str, optional): Amino acid residue(s) to consider for site localization. Defaults to None.
+        out (Union[Path, str, None], optional): Output directory path. Defaults to "{path}/site_localization_outputs".
+
+    Current modification dictionary:
+    modifications = {"n": 42.010565, # N-term acetylation
+                 "M": 15.9949,   # Methionine oxidation
+                 "S": 79.966331, # Serine Phoshorylation
+                 "T": 79.966331, # Threonine Phosphorylation
+                 "Y": 79.966331, # Tyrosine Phosphorylation
+                 "C": 57.021464}
+
+    """
+    path = Path(path)
+
+    if not out:
+        out = Path(path) / "site_localization_outputs"
+    else:
+        out = Path(out)
+    out.mkdir(exist_ok=True)
+
+    list_ascore_outputs = []
+    for psm_fh in (Path(path) / "mokapot_results").glob("*_pyascore_input.txt"):
+        base_name = psm_fh.stem.replace("_pyascore_input.txt", "")
+        mzml_file_path = (Path(path) / f"mzml") / f"{base_name}.mzML"
+        
+        ascore_output = run_pyascore(
+            str(psm_fh),
+            str(mzml_file_path),            
+            modification_dict_add,
+            static_mod_dictionary,
+            ascore_mod_mass,
+            ascore_aa
+        )
+        ascore_output.to_csv(out / f"{base_name}_quant_fdr_site_localization_results.csv")  
+        list_ascore_outputs.append(ascore_output)     
+    if len(list_ascore_outputs) > 1:
+        combined_output = pd.concat(list_ascore_outputs, axis=0, ignore_index=True)
+        combined_output.to_csv(out / "combined_quant_fdr_site_localization_results.csv")
+        
 if __name__ == "__main__":
     main()
