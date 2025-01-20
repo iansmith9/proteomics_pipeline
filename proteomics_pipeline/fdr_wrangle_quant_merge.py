@@ -279,6 +279,15 @@ def dump_models_and_results(
                 raise Exception("Must designate 'tmt' or 'lfq' with lfq_tmt parameter.")
 
             psm_filtered_by_peptides["filename"] = str(op)
+            list_proteins = psm_filtered_by_peptides["Proteins"]
+            lead_protein =[]
+            redundancy = []
+            for i in list_proteins:
+                lead_protein.append(i.split("\t")[0])
+                redundancy.append(len(i.split("\t"))-1)
+            psm_filtered_by_peptides["lead_protein"] = lead_protein
+            psm_filtered_by_peptides["redundancy"] = redundancy
+
             psm_filtered_by_peptides.to_csv(
                 out / f"{op}_psm{psm_fdr}_peptide{peptide_fdr}_protein{protein_fdr}_fdr.csv"
             )
@@ -291,14 +300,7 @@ def dump_models_and_results(
         psm_filtered_by_peptides = pd.concat(psm_filtered_dfs, ignore_index=True)
 
         ###
-        list_proteins = psm_filtered_by_peptides["Proteins"]
-        lead_protein =[]
-        redundancy = []
-        for i in list_proteins:
-            lead_protein.append(i.split("\t")[0])
-            redundancy.append(len(lead_protein)-1)
-        psm_filtered_by_peptides["lead_protein"] = lead_protein
-        psm_filtered_by_peptides["redundancy"] = redundancy
+        
 
 
         psm_filtered_by_peptides.to_csv(
@@ -382,7 +384,7 @@ def dump_models_and_results(
         redundancy = []
         for i in list_proteins:
             lead_protein.append(i.split("\t")[0])
-            redundancy.append(len(lead_protein)-1)
+            redundancy.append(len(i.split("\t"))-1)
         psm_filtered_by_peptides["lead_protein"] = lead_protein
         psm_filtered_by_peptides["redundancy"] = redundancy
         
