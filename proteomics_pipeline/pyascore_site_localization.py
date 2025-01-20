@@ -53,6 +53,8 @@ def run_pyascore(
     id_parser = pyascore.IdentificationParser(psm_path, id_file_format = "mokapotTXT", static_mods = static_mod_dictionary, mass_corrector = mass_corrector_val)
     spectral_parser = pyascore.SpectraParser(mzml_path, 'mzML')
     ascore = pyascore.PyAscore(bin_size=100, n_top=10, mod_group = ascore_aa, mod_mass = ascore_mod_mass)
+    psm_objects = id_parser.to_list()
+    spectra_objects = spectral_parser.to_dict()
 
     # 4) Score PSMs
     pyascore_results = []

@@ -22,6 +22,7 @@ from .lfq_biosaur2 import *
 from .tmt_quant_tool import *
 from .fdr_wrangle_quant_merge import *
 from .fdr_wrangle_quant_merge_no_protein_group import *
+from .pyascore_site_localization import *
 # Configure basic logging settings for the application
 logging.basicConfig(
     level=logging.INFO,
@@ -674,7 +675,7 @@ def pyascore_site_localization(
 
     list_ascore_outputs = []
     for psm_fh in (Path(path) / "mokapot_results").glob("*_pyascore_input.txt"):
-        base_name = psm_fh.stem.replace("_pyascore_input.txt", "")
+        base_name = psm_fh.stem.replace("_pyascore_input", "")
         mzml_file_path = (Path(path) / f"mzml") / f"{base_name}.mzML"
         
         ascore_output = run_pyascore(
