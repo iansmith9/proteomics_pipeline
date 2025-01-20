@@ -24,6 +24,7 @@ This codebase implements a proteomics data analysis pipeline with support for bo
     <li>importlib</li>
     <li>pyteomics</li>
     <li>statistics</li>
+    <li>pyascore</li>
 </ul>
 
 
@@ -43,6 +44,7 @@ This codebase implements a proteomics data analysis pipeline with support for bo
     <li>MS1 feature detection using Biosaur2 (for LFQ)</li>
     <li>TMT reporter ion quantification (for TMT) for MS2/MS3</li>
     <li>FDR control using Mokapot with a joint model and result processing and quantification append.</li>
+    <li>Site localization with PyAscore</li>
 </ul>
 
 ## Example Usage
@@ -181,6 +183,19 @@ results = train_fdr_model(
 )
 ```
 
+### 7. Site Localization with PyAscore
+```python
+from proteomics_pipeline.main import pyascore_site_localization
+
+results = pyascore_site_localization(
+    path = "C:/project_path_name/",
+    modification_dict_add = {"C": 239.1268},
+    static_mod_dictionary = {'C': 57.021464, 'nK': 304.207},
+    ascore_mod_mass = 239.1628,
+    ascore_aa = "C"
+)
+```
+
 ## Command Line Interface
 The pipeline provides several CLI commands:
 ```
@@ -192,6 +207,7 @@ db_search                 # Run database search
 detect_ms1_features       # Run MS1 feature detection
 tmt_quant_function        # Quantify TMT reporter ions
 train_fdr_model          # Process results with FDR control
+pyascore_site_localization # Run site localization with PyAscore
 ```
 
 ## Input Requirements
@@ -235,5 +251,6 @@ help(db_search)
 help(detect_ms1_features)
 help(tmt_quant_function)
 help(train_fdr_model)
+help(pyascore_site_localization)
 ```
 
