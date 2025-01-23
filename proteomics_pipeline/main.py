@@ -265,8 +265,8 @@ def raw_file_extract(
 def _raw_to_mzml(*args: Any, **kwargs: Any) -> None:
     """CLI wrapper for raw_to_mzml function."""
     raw_to_mzml(*args, **kwargs)
-
-
+ 
+ 
 @arg_logger
 def raw_to_mzml(
     path: Union[Path, str],
@@ -274,12 +274,12 @@ def raw_to_mzml(
     linux: bool = False,           
 ) -> None:
     """Convert RAW mass spec files to mzML format.
-
+ 
     Args:
-        path: Path to project directory 
+        path: Path to project directory
         path_msconvert: Path to msconvert executable for local conversion (str: path to msconvert executable), ignored if linux is True
         linux: Whether to use a linux dockerized msconvert (True) or local msconvert (False) (bool: False (local), True (linux))
-
+ 
     Raises:
         Exception: If local conversion is selected but no msconvert path provided
     """

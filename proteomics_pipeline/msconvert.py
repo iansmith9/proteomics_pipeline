@@ -7,34 +7,35 @@ import subprocess
 def msconvert_run_linux(path: Union[Path, str]) -> None:
     """Run MSConvert on RAW files using Docker container.
     
-    Converts Thermo RAW files to mzML format using ProteoWizard MSConvert 
+    Converts Thermo RAW files to mzML format using ProteoWizard MSConvert
     running in a Docker container.
-
+ 
     Args:
         path: Directory containing 'raw' subdirectory with .raw files.
              Will output to 'mzml' subdirectory.
-
+ 
     Returns:
         None. Writes converted mzML files to output directory.
     """
     msconvert_cmd = (
-        "docker run --rm -e WINEDEBUG=-all "
+        "sudo docker run --rm -e WINEDEBUG=-all "
         + "-v {path}:/data "
         + "chambm/pwiz-skyline-i-agree-to-the-vendor-licenses wine msconvert "
-        + '/data/raw/{file} -o /data/mzml/ --zlib' 
+        + '/data/raw/{file} -o /data/mzml/ --zlib '
         + '--filter "peakPicking true 1- '
         + '"'
         # + 'File:"""^<SourcePath^>""", NativeID:"""^<Id^>""""'
     )
-
+ 
     for file in Path(path).glob("raw/*.raw"):
         subprocess.call(
             msconvert_cmd.format(
                 file=file.name,
-                path=Path(path).absolute()
+                path=Path(path).resolve()
             ),
             shell=True
         )
+ 
 
 
 def msconvert_run_local(
