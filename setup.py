@@ -20,8 +20,7 @@ setup(
         'black',
         'ppx',
         'biosaur2',
-        'mokapot',
-        'pyascore'
+        'mokapot'
     ],
     package_data ={        
     'proteomics_pipeline/comet_params_defaults':['*.parmas','*.fasta']
@@ -32,6 +31,6 @@ setup(
         'Operating System :: OS Independent',
     ],
     entry_points = {
-        'console_scripts': ['mass_spec_pipe=mass_spec_dev.main:main'],
+        'console_scripts': ['proteomics_pipeline=proteomics_pipeline.main:main'],
     }
 )
