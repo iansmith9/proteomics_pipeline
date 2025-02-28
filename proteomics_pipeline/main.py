@@ -241,6 +241,7 @@ def raw_file_extract(
         else:
             for file_name in file_list:
                 ms_file_location = interal_repo_path / file_name
+                ms_file_location = str(ms_file_location).replace('s3:/', 's3://')
                 if aws_copy:
                     transfer_cmd = f'aws s3 cp {ms_file_location} {out}'
                     os.system(transfer_cmd)
@@ -427,7 +428,7 @@ def detect_ms1_features(
         run_biosaur2(
             mzml_file,
             out,
-            hill_value,
+            hills,
             charge_min,
             charge_max
         )

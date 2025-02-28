@@ -20,7 +20,8 @@ setup(
         'black',
         'ppx',
         'biosaur2',
-        'mokapot'
+        'mokapot',
+        'pyascore'
     ],
     package_data ={        
     'proteomics_pipeline/comet_params_defaults':['*.parmas','*.fasta']
