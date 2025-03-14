@@ -434,7 +434,7 @@ def detect_ms1_features(
         )
 
             
-@main.command("tmt_quant_function", help="Quantify TMT reporter ions from MS3 scans.")
+@main.command("tmt_quant_function", help="Quantify TMT reporter ions from MS2 or MS3 scans.")
 @click.option("--path", help="Path to project directory containing mzML files.")
 @click.option(
     "--da_tol",

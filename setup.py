@@ -21,8 +21,7 @@ setup(
         'ppx',
         'biosaur2',
         'mokapot',
-        'pyascore @ git+ssh://git@github.com:iansmith9/pyAscore.git'
-        #'pyascore'
+        'pyascore @ git+https://github.com/iansmith9/pyAscore.git#egg=pyascore'
     ],
     package_data ={        
     'proteomics_pipeline/comet_params_defaults':['*.parmas','*.fasta']
